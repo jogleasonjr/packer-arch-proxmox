@@ -1,6 +1,6 @@
 ## Packer-Arch-Proxmox
 
-[Packer](https://www.packer.io/) template and scripts to [generate](https://www.packer.io/docs/builders/proxmox.html) Arch Linux virtual machine templates for Proxmox.
+[Packer](https://www.packer.io/) template and scripts to [generate](https://www.packer.io/docs/builders/proxmox.html) Arch Linux virtual machine templates in Proxmox.
 
 ## Proxmox Setup
 
