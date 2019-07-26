@@ -1,0 +1,59 @@
+{
+    "builders": [
+        {
+            "type": "proxmox",
+            "name": "proxmox-server",
+            "proxmox_url": "https://192.168.100.183:8006/api2/json",
+            "insecure_skip_tls_verify": true,
+            "username": "root@pam",
+            "password": "CHANGE_ME",
+            "node": "pxr7100",
+            "network_adapters": [
+              {
+                "bridge": "vmbr0"
+              }
+            ],
+            "disks": [
+              {
+                "type": "scsi",
+                "disk_size": "40G",
+                "storage_pool": "local-lvm",
+                "storage_pool_type": "lvm"
+              }
+            ],
+            "memory": 8192,
+            "cores": 4,
+            "iso_file": "local:iso/archlinux-2019.07.01-x86_64.iso",
+            "http_directory":"http",
+            "boot_wait": "10s",
+            "boot_command": [
+                "<enter><wait10><wait10><wait10><wait10>",
+                "curl -O 'http://{{.HTTPIP}}:{{.HTTPPort}}/install{,-chroot}.sh'<enter><wait>",
+                "bash install.sh < install-chroot.sh && systemctl reboot<enter>"
+            ],
+            "ssh_username": "dev",
+            "ssh_password": "piranha",
+            "ssh_timeout": "15m"
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "file",
+            "source": "content",
+            "destination": "/tmp"
+        },
+        {
+            "type": "shell",
+            "scripts": [
+                "scripts/cli_tools.sh",
+                "scripts/cli_toys.sh"
+            ]
+        },
+        {
+            "type": "shell",
+            "scripts": [
+                "scripts/cleanup.sh"
+            ]
+        }
+    ]
+}
